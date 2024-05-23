@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <title>Do you love me?</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: -150px;
+            background-color: lightgrey;
+        }
+        .buttons {
+            margin-bottom: 50px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #ffbb00;
+            color: white;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #ff0000;
+        }
+        #imageContainer {
+            position: fixed;
+            bottom: -5px;
+            left: 10px;
+            display: none;
+        }
+        #imageContainer img {
+            width: 150px;
+        }
+        #imageContainer2 {
+            position: fixed;
+            bottom: -5px;
+            right: -1px;
+        }
+        #imageContainer2 img {
+            width: 70px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Do you love?</h1>
+    <button class="button" id="button1" onmouseover="moveButton()" onclick="noclicked()"">No</button>
+    <button class="button"id="button2" onclick="goToSecondPage()">Yes</button>
+
+    <div id="imageContainer">
+        <img src="assets/meme.png" alt="No!">
+    </div>
+    <div id="imageContainer2">
+        <img src="assets/umbrella.png" alt="yellow umbrella">
+    </div>
+
+    <script>
+
+        function getRandomPosition() {
+            let x = Math.floor(Math.random() * (window.innerWidth - 150));
+            let y = Math.floor(Math.random() * (window.innerHeight - 50));
+            return { x: x, y: y };
+        }
+
+        function moveButton() {
+            let button = document.getElementById('button1');
+            let pos = getRandomPosition();
+            button.style.position = 'absolute';
+            button.style.left = pos.x + 'px';
+            button.style.top = pos.y + 'px';
+            showImage();
+        }
+
+        function showImage() {
+            document.getElementById('imageContainer').style.display = 'block';
+        }
+
+        function hideImage() {
+            document.getElementById('imageContainer').style.display = 'none';
+        }
+        function noclicked() {
+            window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+        }
+
+        function goToSecondPage() {
+            window.location.href = 'web.html';
+        }
+    </script>
+</body>
+</html>
