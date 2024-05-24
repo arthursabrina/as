@@ -6,13 +6,35 @@ let currentColor;
 let w = window.innerWidth;
 let h = window.innerHeight;  
 let counter = 0;
-let img = new Image();
+let img;
 let thdrops;
 let simg;
 let wimg;
 let himg;
 let isPortrait;
 let showText = true;
+
+function preload() {
+  paletteP1 = [
+    loadImage("assets/us0.jpg"),
+    loadImage("assets/us1.jpg"),
+    loadImage("assets/us2.jpg"),
+    loadImage("assets/us3.jpg"),
+    loadImage("assets/us4.jpg"),
+    loadImage("assets/us5.jpg"),
+    loadImage("assets/us6.jpg")
+  ];
+
+  paletteP2 = [
+    loadImage("assets/sa0.jpg"),
+    loadImage("assets/sa1.jpg"),
+    loadImage("assets/sa2.jpg"),
+    loadImage("assets/sa3.jpg"),
+    loadImage("assets/sa4.jpg"),
+    loadImage("assets/sa5.jpg"),
+    loadImage("assets/sa6.jpg")
+  ];
+}
 
 function setup() {
   createCanvas(w, h);
@@ -43,26 +65,6 @@ function setup() {
     color(176, 224, 230)
   ];
 
-  paletteP1 = [
-    "assets/us0.jpg",
-    "assets/us1.jpg",
-    "assets/us2.jpg",
-    "assets/us3.jpg",
-    "assets/us4.jpg",
-    "assets/us5.jpg",
-    "assets/us6.jpg"
-  ];
-
-  paletteP2 = [
-    "assets/sa0.jpg",
-    "assets/sa1.jpg",
-    "assets/sa2.jpg",
-    "assets/sa3.jpg",
-    "assets/sa4.jpg",
-    "assets/sa5.jpg",
-    "assets/sa6.jpg"
-  ];
-
   drawingContext.shadowOffsetX = 5;
   drawingContext.shadowOffsetY = -5;
   drawingContext.shadowBlur = 15;
@@ -72,12 +74,8 @@ function setup() {
 
   // Set image source and load event
   isPortrait = h > w;
-  img.src = isPortrait ? random(paletteP2) : random(paletteP1);
-  img.onload = function() {
-    calculateImageScale();
-    draw(); // Force a draw after image is loaded
-  };
-
+  img = isPortrait ? random(paletteP2) : random(paletteP1);
+  calculateImageScale();
 }
 
 function calculateImageScale() {
@@ -121,13 +119,12 @@ function touchStarted() {
 function draw() {
   background(bk);
   
-  if (img.complete) {
+  if (img) {
     // Draw image only if it's fully loaded
     drawingContext.save();
     drawingContext.scale(simg, simg);
     drawingContext.drawImage(img, wimg, himg);
     drawingContext.restore();
-
 
     if (showText) {
       textAlign(CENTER, CENTER);
@@ -154,7 +151,6 @@ function draw() {
       noStroke();
       fill(255, 255, 255);
       text('🐱+🐶', mouseX, mouseY - 80);
-      //text(drops.length, mouseX + 80, mouseY - 80);
     }
   }
 }
