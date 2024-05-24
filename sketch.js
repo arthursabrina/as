@@ -49,7 +49,8 @@ function setup() {
     "assets/us2.jpg",
     "assets/us3.jpg",
     "assets/us4.jpg",
-    "assets/us5.jpg"
+    "assets/us5.jpg",
+    "assets/us6.jpg"
   ];
 
   paletteP2 = [
@@ -58,7 +59,8 @@ function setup() {
     "assets/sa2.jpg",
     "assets/sa3.jpg",
     "assets/sa4.jpg",
-    "assets/sa5.jpg"
+    "assets/sa5.jpg",
+    "assets/sa6.jpg"
   ];
 
   drawingContext.shadowOffsetX = 5;
