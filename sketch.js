@@ -121,9 +121,9 @@ function draw() {
 
   if (showText) {
     textAlign(CENTER, CENTER);
-    textFont('Verdana', 42);
+    textFont('Verdana', 36);
     fill(255);
-    text('Click on it!', w/2, h/3);
+    text('Click on it!', w/2, 4*h/5);
   }
 
   if (drops.length >= thdrops) {
