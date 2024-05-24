@@ -108,6 +108,10 @@ function mousePressed() {
   showText = false;
 }
 
+function touchStarted() {
+  showText = false;
+}
+
 function draw() {
   background(bk);
   
