@@ -12,6 +12,7 @@ let simg;
 let wimg;
 let himg;
 let isPortrait;
+let showText = true;
 
 function setup() {
   createCanvas(w, h);
@@ -42,6 +43,24 @@ function setup() {
     color(176, 224, 230)
   ];
 
+  paletteP1 = [
+    "assets/us0.jpg",
+    "assets/us1.jpg",
+    "assets/us2.jpg",
+    "assets/us3.jpg",
+    "assets/us4.jpg",
+    "assets/us5.jpg"
+  ];
+
+  paletteP2 = [
+    "assets/sa0.jpg",
+    "assets/sa1.jpg",
+    "assets/sa2.jpg",
+    "assets/sa3.jpg",
+    "assets/sa4.jpg",
+    "assets/sa5.jpg"
+  ];
+
   drawingContext.shadowOffsetX = 5;
   drawingContext.shadowOffsetY = -5;
   drawingContext.shadowBlur = 15;
@@ -51,11 +70,12 @@ function setup() {
 
   // Set image source and load event
   isPortrait = h > w;
-  img.src = isPortrait ? "assets/sa.jpg" : "assets/us.jpg";
+  img.src = isPortrait ? random(paletteP2) : random(paletteP1);
   img.onload = function() {
     calculateImageScale();
     draw(); // Force a draw after image is loaded
   };
+
 }
 
 function calculateImageScale() {
@@ -84,15 +104,26 @@ function mouseReleased() {
   newDrop = true;
 }
 
+function mousePressed() {
+  showText = false;
+}
+
 function draw() {
   background(bk);
-
+  
   if (img.complete) {
     // Draw image only if it's fully loaded
     drawingContext.save();
     drawingContext.scale(simg, simg);
     drawingContext.drawImage(img, wimg, himg);
     drawingContext.restore();
+  }
+
+  if (showText) {
+    textAlign(CENTER, CENTER);
+    textFont('Verdana', 42);
+    fill(255);
+    text('Click on it!', w/2, h/3);
   }
 
   if (drops.length >= thdrops) {
