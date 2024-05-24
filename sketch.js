@@ -1,93 +1,73 @@
 let drops = [];
-let palette, bk, currentColor, img, simg, wimg, himg;
-let w = window.innerWidth;
-let h = window.innerHeight;
+let palette, bk, currentColor;
 let counter = 0;
-let isPortrait;
-let showText = true;
-
-function preload() {
-  // Preload images
-  this.paletteP1 = [
-    loadImage("assets/us0.jpg"),
-    loadImage("assets/us1.jpg"),
-    loadImage("assets/us2.jpg"),
-    loadImage("assets/us3.jpg"),
-    loadImage("assets/us4.jpg"),
-    loadImage("assets/us5.jpg"),
-    loadImage("assets/us6.jpg")
-  ];
-
-  this.paletteP2 = [
-    loadImage("assets/sa0.jpg"),
-    loadImage("assets/sa1.jpg"),
-    loadImage("assets/sa2.jpg"),
-    loadImage("assets/sa3.jpg"),
-    loadImage("assets/sa4.jpg"),
-    loadImage("assets/sa5.jpg"),
-    loadImage("assets/sa6.jpg")
-  ];
-}
+let img = new Image();
+let isPortrait, showText = true;
+let w = window.innerWidth, h = window.innerHeight;
+let thdrops, simg, wimg, himg;
 
 function setup() {
   createCanvas(w, h);
 
   palette = [
-    color(227, 11, 92, 70),
-    color(220, 20, 60, 70),
-    color(178, 34, 34, 70),
-    color(255, 49, 49, 70),
-    color(255, 0, 0, 70),
-    color(210, 4, 45, 70),
-    color(139, 0, 0, 70),
-    color(255, 99, 71, 70),
-    color(255, 69, 0, 70)
+    color(227, 11, 92, 70), color(220, 20, 60, 70), color(178, 34, 34, 70),
+    color(255, 49, 49, 70), color(255, 0, 0, 70), color(210, 4, 45, 70),
+    color(139, 0, 0, 70), color(255, 99, 71, 70), color(255, 69, 0, 70)
   ];
 
-  const palette2 = [
-    color(25, 25, 112),
-    color(65, 105, 225),
-    color(72, 61, 139),
-    color(106, 90, 205),
-    color(95, 158, 160),
-    color(70, 130, 180),
-    color(100, 149, 237),
-    color(135, 206, 235),
-    color(139, 0, 0),
-    color(173, 216, 230),
-    color(176, 224, 230)
+  let palette2 = [
+    color(25, 25, 112), color(65, 105, 225), color(72, 61, 139),
+    color(106, 90, 205), color(95, 158, 160), color(70, 130, 180),
+    color(100, 149, 237), color(135, 206, 235), color(139, 0, 0),
+    color(173, 216, 230), color(176, 224, 230)
+  ];
+
+  let paletteP1 = [
+    "assets/us0.jpg", "assets/us1.jpg", "assets/us2.jpg", 
+    "assets/us3.jpg", "assets/us4.jpg", "assets/us5.jpg", "assets/us6.jpg"
+  ];
+
+  let paletteP2 = [
+    "assets/sa0.jpg", "assets/sa1.jpg", "assets/sa2.jpg", 
+    "assets/sa3.jpg", "assets/sa4.jpg", "assets/sa5.jpg", "assets/sa6.jpg"
   ];
 
   drawingContext.shadowOffsetX = 5;
   drawingContext.shadowOffsetY = -5;
   drawingContext.shadowBlur = 15;
   drawingContext.shadowColor = color(50, 50, 50);
-
+  
   bk = random(palette2);
   currentColor = random(palette);
 
+  // Set image source and load event
   isPortrait = h > w;
-  img = isPortrait ? random(this.paletteP2) : random(this.paletteP1);
-  calculateImageScale();
+  img.src = isPortrait ? random(paletteP2) : random(paletteP1);
+  img.onload = calculateImageScale;
 }
 
 function calculateImageScale() {
   if (isPortrait) {
+    thdrops = 25;
     simg = w / img.width;
     wimg = 0;
     himg = (h / simg - img.height) / 2;
   } else {
+    thdrops = 50;
     simg = h / img.height;
     wimg = (w / simg - img.width) / 2;
     himg = 0;
   }
+  draw(); // Force a draw after image is loaded
 }
 
 function addInk(x, y, r, col) {
   let drop = new Drop(x, y, r, col);
-  drops.forEach(other => other.marble(drop));
+  for (let other of drops) {
+    other.marble(drop);
+  }
   drops.push(drop);
-  if (drops.length > (isPortrait ? 25 : 50)) drops.shift();
+  if (drops.length > thdrops) drops.shift();
 }
 
 function mouseReleased() {
@@ -108,8 +88,9 @@ function touchStarted() {
 
 function draw() {
   background(bk);
-
-  if (img) {
+  
+  if (img.complete) {
+    // Draw image only if it's fully loaded
     drawingContext.save();
     drawingContext.scale(simg, simg);
     drawingContext.drawImage(img, wimg, himg);
@@ -119,7 +100,7 @@ function draw() {
       textAlign(CENTER, CENTER);
       textFont('Verdana', 36);
       fill(255);
-      text('Click on it!', w / 2, (5 * h) / 6);
+      text('Click on it!', w/2, 5*h/6);
     }
 
     drops.forEach(drop => drop.show());
@@ -132,7 +113,7 @@ function draw() {
       textSize(36);
       textAlign(CENTER);
       noStroke();
-      fill(255, 255, 255);
+      fill(255);
       text('🐱+🐶', mouseX, mouseY - 80);
     }
   }
