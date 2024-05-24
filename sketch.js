@@ -108,6 +108,10 @@ function mousePressed() {
   showText = false;
 }
 
+function touchEnded() {
+  newDrop = true;
+}
+
 function touchStarted() {
   showText = false;
 }
