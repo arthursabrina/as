@@ -127,33 +127,34 @@ function draw() {
     drawingContext.scale(simg, simg);
     drawingContext.drawImage(img, wimg, himg);
     drawingContext.restore();
-  }
 
-  if (showText) {
-    textAlign(CENTER, CENTER);
-    textFont('Verdana', 36);
-    fill(255);
-    text('Click on it!', w/2, 5*h/6);
-  }
 
-  if (drops.length >= thdrops) {
-    drops.shift();
-  }
-
-  for (let drop of drops) {
-    drop.show();
-  }
-
-  if (mouseIsPressed) {
-    currentColor = palette[counter % palette.length];
-    counter++;
-    addInk(mouseX, mouseY, 36, currentColor);
-
-    textSize(36);
-    textAlign(CENTER);
-    noStroke();
-    fill(255, 255, 255);
-    text('🐱+🐶', mouseX, mouseY - 80);
-    //text(drops.length, mouseX + 80, mouseY - 80);
+    if (showText) {
+      textAlign(CENTER, CENTER);
+      textFont('Verdana', 36);
+      fill(255);
+      text('Click on it!', w/2, 5*h/6);
+    }
+  
+    if (drops.length >= thdrops) {
+      drops.shift();
+    }
+  
+    for (let drop of drops) {
+      drop.show();
+    }
+  
+    if (mouseIsPressed) {
+      currentColor = palette[counter % palette.length];
+      counter++;
+      addInk(mouseX, mouseY, 36, currentColor);
+  
+      textSize(36);
+      textAlign(CENTER);
+      noStroke();
+      fill(255, 255, 255);
+      text('🐱+🐶', mouseX, mouseY - 80);
+      //text(drops.length, mouseX + 80, mouseY - 80);
+    }
   }
 }
